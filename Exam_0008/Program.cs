@@ -1,6 +1,6 @@
 ﻿// Показать четные числа от 1 до N
 
-Console.WriteLine("Программы выводит числа от 1 до N.");
+Console.WriteLine("Программы четные выводит числа от 1 до N.");
 Console.WriteLine("Будете вводить чило N самостоятельно? Введите `y` или 'yes' если согласны.");
 Console.WriteLine("Если нежелаете , то программа сгенерирует число в диапазоне 1...1000.");
 string? answer_user = Console.ReadLine();
@@ -35,5 +35,12 @@ if (answer_user == "y" || answer_user == "yes")
 }
 
 // Рассчитываем и выводим данные в консоль.
-for (int i = 1; i <=num; i++)
-    Console.Write(i + "  ");
+if (num >= 2)
+{
+    for (int i = 2; i <=num; i = i + 2)
+    {
+        if (i % 2 == 0)
+            Console.Write(i + "  ");
+    }
+} else
+    Console.WriteLine("Нечего выводить!");
