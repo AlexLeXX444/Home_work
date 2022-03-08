@@ -66,7 +66,7 @@ int[,] MatrixComposition (int[,] matA, int[,] matB, int[,] matRes)
         for (int j=0; j<matRes.GetLength(1); j++)
         {
             matRes[i,j] = 0;
-            for (int k=0; k<matRes.GetLength(0); k++)
+            for (int k=0; k<matA.GetLength(1); k++)
                 {
                     matRes[i,j] = matRes[i,j] + matA[i, k] * matB[k, j];
                 }
