@@ -12,7 +12,7 @@ Console.WriteLine("Введите координаты в формате (x1,y1)
 Console.WriteLine("Это координаты вершин фигуры.");
 String? inputStr = Console.ReadLine();
 char[] separators = new char[] { '(',')',',',' ' };
-int[]? mainArray = Array.ConvertAll<string, int>(inputStr.Split(separators, StringSplitOptions.RemoveEmptyEntries), int.Parse);
+int[] mainArray = Array.ConvertAll<string, int>(inputStr!.Split(separators, StringSplitOptions.RemoveEmptyEntries), int.Parse);
 
 Console.WriteLine("Введите коэффициент смещения.");
 double koff = Convert.ToDouble(Console.ReadLine());
