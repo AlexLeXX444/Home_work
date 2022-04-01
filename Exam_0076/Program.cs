@@ -27,102 +27,57 @@
 N ≤ 10²⁰.
 По согласованию с преподавателем ограничили число максимальным значением типа long - 9 223 372 036 854 775 807.
 
+Реализовал решение, подсказанное Сергеем Каменецким. Каждая строка содержит элементы, взаимно простые (не делящиеся друг на друга).
+*/
 
-Console.WriteLine("Введите число N для которого будем рассчитывать число групп.");
-long number = Convert.ToInt64(Console.ReadLine());
+// Просим пользователя ввести число.
+Console.WriteLine("Введите число. ");
+long number = Convert.ToInt32(Console.ReadLine());
 number = CheckUserEntries(number);
 
 // Проверяем ввод пользователя.
 long CheckUserEntries (long num)
 {
-    while (num < 1)
+    while (num < 0)
     {
-        Console.WriteLine("Число должно быть положительным и больше нуля.");
-        num = Convert.ToInt64(Console.ReadLine());
+        Console.WriteLine("Неверный ввод, повторите.");
+        num = Convert.ToInt32(Console.ReadLine());
     }
     return num;
 }
 
-// Заполним массив значениями и присвоим номера групп.
-int[,] FillMultiArray (int num)
-{
-    int[,] mass = new int [num,2];
-    for (int i = 0; i < mass.GetLength(0); i++)
-    {
-        mass[i,0] = i;
-        for (int j = 1; j <= i; j++)
-        {
-            int counter = 2;
-
-        }
-    }
-}*/
-
-int number = Convert.ToInt32(Console.ReadLine());
-//int[] inNumbers = Enumerable.Range(1,10).ToArray();
-
-/* Выводим массив на консоль.
-async void PrintArray (int[] arr)
-{
-    Console.Write("| ");
-    for (int i = 0; i < arr.Length; i++)
-    {
-        Console.Write($"{arr[i]} | ");
-    }
-    Console.WriteLine();
-}*/
-
 // Находим количество групп.
-int FindNumberOfGroups(int number)
+int FindNumberOfGroups(long number)
 {
-    int groupNumber = (int)Math.Ceiling(Math.Log2(number));       
-    return groupNumber;
+    return (int)Math.Ceiling(Math.Log2(number));
 }
 
-Console.WriteLine($"Всего групп, на которые разбивается данное число: {FindNumberOfGroups(number)}");
-
-/*
-using System;
-using System.Linq;
-                    
-public class Program
+// Добавляем числа в массив для последующего вывода в консоль.
+String FindGroup(int groupNumber, long originalNumber)
 {
-    public static int CalculateGroupsNumber(int numbersSequenceRightBound)
+    String toPrint = string.Empty;
+    // Проверяем, группа последняя или нет.
+    if ((groupNumber + 1) == FindNumberOfGroups(originalNumber)) 
     {
-        int groupsNumber = (int)Math.Ceiling(Math.Log2(numbersSequenceRightBound));
-        
-        if ((int)Math.Pow(2, groupsNumber) == numbersSequenceRightBound)
-            groupsNumber++;
-        
-        return groupsNumber;
+        // Ели группа последняя, то добавляем в строку значения только до нужного нам числа.
+        for (long i = (int)Math.Pow(2, groupNumber); i <= originalNumber; i++)
+            toPrint = toPrint + " | " + i;
     }
-    
-    public static int[] GetNextGroup(int groupNumber, int groupsQuantity, int numbersSequenceRightBound)
+    else
     {
-        if (groupNumber != groupsQuantity)
-            return Enumerable.Range((int)Math.Pow(2, groupNumber - 1), (int)Math.Pow(2, groupNumber) - (int)Math.Pow(2, groupNumber - 1)).ToArray();
-        else
-            return Enumerable.Range((int)Math.Pow(2, groupNumber - 1), numbersSequenceRightBound - (int)Math.Pow(2, groupNumber - 1) + 1).ToArray();
+        // Если группа не последняя, то добавляем в массив все значения группы.
+        for (long i = (int)Math.Pow(2, groupNumber); i < (int)Math.Pow(2, groupNumber + 1); i++)
+            toPrint = toPrint + " | " + i;
     }
-    
-    public static void Main()
-    {
-        int numbersSequenceRightBound = 0;
+
+    return toPrint;
         
-        Console.WriteLine("Введите число: ");
-        numbersSequenceRightBound = Int32.Parse(Console.ReadLine());
-        while (numbersSequenceRightBound <= 0)
-        {
-            Console.WriteLine("Ошибка: число должно быть положительным!");
-            Console.Write("Повторите ввод: ");
-            numbersSequenceRightBound = Int32.Parse(Console.ReadLine());
-        }
-        
-        Console.WriteLine($"Количество групп для разбиения: {CalculateGroupsNumber(numbersSequenceRightBound)}");
-        for (int i = 1; i <= CalculateGroupsNumber(numbersSequenceRightBound); i++)
-            Console.WriteLine($"{i}-я группа: [{String.Join(", ", GetNextGroup(i, CalculateGroupsNumber(numbersSequenceRightBound), numbersSequenceRightBound))}]");
-            
-        Console.ReadKey(true);
-    }
 }
-*/
+
+Console.Clear();
+Console.WriteLine($"Всего групп, на которые разбивается число {number} будет равно: {FindNumberOfGroups(number)}");
+Console.WriteLine();
+
+// Выводим группы на консоль.
+for (int k = 0; k < FindNumberOfGroups(number); k++)
+    Console.WriteLine($"Группа №{k + 1}: {FindGroup(k, number)}"); 
